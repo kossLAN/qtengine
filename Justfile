@@ -6,6 +6,15 @@ fmt:
 lint:
 	find src -type f -name "*.cpp" -print0 | parallel -j$(nproc) -q0 --no-notice --will-cite --tty --bar clang-tidy --load={{ env_var("TIDYFOX") }}
 
+lint-ci:
+	find src -type f -name "*.cpp" -print0 | parallel -j$(nproc) -q0 --no-notice --will-cite --tty clang-tidy --load={{ env_var("TIDYFOX") }}
+
+lint-changed:
+	git diff --name-only HEAD | grep "^.*\.cpp\$" |  parallel -j$(nproc) --no-notice --will-cite --tty --bar clang-tidy --load={{ env_var("TIDYFOX") }}
+
+lint-staged:
+	git diff --staged --name-only HEAD | grep "^.*\.cpp\$" |  parallel -j$(nproc) --no-notice --will-cite --tty --bar clang-tidy --load={{ env_var("TIDYFOX") }}
+
 configure target='debug' *FLAGS='':
 	cmake -GNinja -B {{builddir}} \
 		-DCMAKE_BUILD_TYPE={{ if target == "debug" { "Debug" } else { "RelWithDebInfo" } }} \
