@@ -17,7 +17,6 @@
 #include <QtDebug>
 #include <QtGlobal>
 #include <qdebug.h>
-#include <qlogging.h>
 #if defined KF_CONFIGCORE_LIB && defined KF_COLORSCHEME_LIB
 #include <KColorScheme>
 #include <KSharedConfig>
@@ -35,13 +34,9 @@ std::optional<QPalette> Style::loadColorScheme(const QString& filePath) {
 	if (filePath.isEmpty()) return std::nullopt;
 
 #if defined KF_CONFIGCORE_LIB && defined KF_COLORSCHEME_LIB
-	if (filePath.toLower().endsWith(".colors")) {
-		qDebug() << "Using KColorScheme";
+	if (filePath.toLower().endsWith(".colors"))
 		return KColorScheme::createApplicationPalette(KSharedConfig::openConfig(filePath));
-	}
 #endif
-
-	qDebug() << "Not using KColorScheme";
 
 	QSettings settings(filePath, QSettings::IniFormat);
 	settings.beginGroup("ColorScheme"_L1);

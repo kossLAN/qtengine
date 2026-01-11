@@ -28,47 +28,50 @@
 
 namespace {
 
-// Helper: traverse a dot-separated path like "theme.color".
-// If you really have a literal key that contains a dot, use the QJsonObject API
-// directly.
 QJsonValue valueAtPath(const QJsonObject& root, const QString& path) {
 	const auto parts = path.split('.', Qt::SkipEmptyParts);
 	QJsonValue current = QJsonValue(root);
 
 	for (const QString& part: parts) {
-		if (!current.isObject()) {
-			return QJsonValue(); // Undefined
-		}
+		if (!current.isObject()) return QJsonValue();
+
 		current = current.toObject().value(part);
 	}
+
 	return current;
 }
 
-// String extractor with default and logging
 QString
 getString(const QJsonObject& root, const QString& path, const QString& defaultVal = QString()) {
 	const QJsonValue v = valueAtPath(root, path);
 	if (v.isUndefined() || v.isNull()) {
 		qDebug() << "Config: key missing or null for" << path << "- using default:" << defaultVal;
+
 		return defaultVal;
 	}
+
 	if (!v.isString()) {
 		qDebug() << "Config: expected string at" << path << "but got" << v.type();
+
 		return defaultVal;
 	}
+
 	return v.toString();
 }
 
-// Integer extractor: JSON numbers are doubles in Qt; check integerness
 int getInt(const QJsonObject& root, const QString& path, int defaultVal = 0) {
 	const QJsonValue v = valueAtPath(root, path);
+
 	if (v.isUndefined() || v.isNull()) {
 		qDebug() << "Config: key missing or null for" << path << "- using default:" << defaultVal;
+
 		return defaultVal;
 	}
+
 	if (v.isDouble()) {
 		const double d = v.toDouble();
 		const double floored = std::floor(d);
+
 		if (d == floored) {
 			return static_cast<int>(floored);
 		} else {
@@ -76,24 +79,25 @@ int getInt(const QJsonObject& root, const QString& path, int defaultVal = 0) {
 			return defaultVal;
 		}
 	}
+
 	qDebug() << "Config: expected number at" << path << "but got" << v.type();
+
 	return defaultVal;
 }
 
-// Bool extractor: accept JSON boolean or numeric 0/1
 bool getBool(const QJsonObject& root, const QString& path, bool defaultVal = false) {
 	const QJsonValue v = valueAtPath(root, path);
 	if (v.isUndefined() || v.isNull()) {
 		qDebug() << "Config: key missing or null for" << path << "- using default:" << defaultVal;
 		return defaultVal;
 	}
-	if (v.isBool()) {
-		return v.toBool();
-	}
-	if (v.isDouble()) {
-		return (v.toInt() != 0);
-	}
+
+	if (v.isBool()) return v.toBool();
+
+	if (v.isDouble()) return (v.toInt() != 0);
+
 	qDebug() << "Config: expected bool or numeric (0/1) at" << path << "but got" << v.type();
+
 	return defaultVal;
 }
 
@@ -164,10 +168,6 @@ void ConfigManager::init() {
 	this->singleClickActivate = getBool(root, "misc.singleClickActivate", true);
 	this->menusHaveIcons = getBool(root, "misc.menusHaveIcons", true);
 	this->shortcutsForContextMenus = getBool(root, "misc.shortcutsForContextMenus", true);
-
-	qDebug() << "Config loaded: colorScheme=" << this->colorScheme << " iconTheme=" << this->iconTheme
-	         << " style=" << this->style << " fontFixed=" << this->fontFixed << this->fontFixedSize
-	         << " font=" << this->font << this->fontSize;
 }
 
 const ConfigManager& configManager() {
