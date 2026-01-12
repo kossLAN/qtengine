@@ -14,6 +14,8 @@
   in {
     nixosModules.default = import ./nix/module.nix inputs;
 
+    hjemModules.defaule = import ./nix/hjem.nix inputs;
+
     packages = forEachSystem (system: pkgs: rec {
       default = qt6engine;
       qt6engine = pkgs.callPackage ./nix/default.nix {};
