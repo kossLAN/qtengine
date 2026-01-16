@@ -19,7 +19,7 @@ in {
       etc."xdg/qtengine/config.json".source = configFormat.generate "qtengine-config.json" cfg.config;
 
       systemPackages = [
-        inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.default
+        inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.experimental
       ];
 
       variables = {

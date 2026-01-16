@@ -109,8 +109,7 @@ QByteArray findConfig() {
 	}
 
 	if (qEnvironmentVariableIsSet("XDG_CONFIG_HOME")) {
-		const QByteArray fullPath =
-		    qgetenv("XDG_CONFIG_HOME").append("/").append(QTENGINE_CONFIG_DIR).append("/config.json");
+		const QByteArray fullPath = qgetenv("XDG_CONFIG_HOME").append("/qtengine/config.json");
 		const QFileInfo fileInfo = QFileInfo(fullPath);
 
 		if (fileInfo.exists()) return fullPath;
@@ -120,8 +119,7 @@ QByteArray findConfig() {
 		const QList<QByteArray> paths = qgetenv("XDG_CONFIG_DIRS").split(':');
 
 		for (QByteArray path: paths) {
-			const QByteArray fullPath =
-			    path.append("/").append(QTENGINE_CONFIG_DIR).append("/config.json");
+			const QByteArray fullPath = path.append("/qtengine/config.json");
 			const QFileInfo fileInfo = QFileInfo(fullPath);
 
 			if (fileInfo.exists()) return fullPath;

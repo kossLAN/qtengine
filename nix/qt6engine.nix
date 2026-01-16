@@ -24,8 +24,9 @@ stdenv.mkDerivation {
   ];
 
   cmakeFlags = [
-    (lib.cmakeFeature "QTENGINE_QT_MAJOR" "6")
-    (lib.cmakeFeature "PLUGINDIR" "${placeholder "out"}/${qt6Packages.qtbase.qtPluginPrefix}")
+    (lib.cmakeFeature "BUILD_QT5" "OFF")
+    (lib.cmakeFeature "BUILD_QT6" "ON")
+    (lib.cmakeFeature "QT6_PLUGINDIR" "${placeholder "out"}/${qt6Packages.qtbase.qtPluginPrefix}")
   ];
 
   dontWrapQtApps = true;

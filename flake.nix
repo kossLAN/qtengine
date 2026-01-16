@@ -18,6 +18,7 @@
 
     packages = forEachSystem (system: pkgs: rec {
       default = pkgs.callPackage ./nix/default.nix {};
+      experimental = pkgs.callPackage ./nix/experimental.nix {};
 
       qt5engine = pkgs.libsForQt5.callPackage ./nix/qt5engine.nix {};
       qt6engine = pkgs.callPackage ./nix/qt6engine.nix {};

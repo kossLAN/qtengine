@@ -17,10 +17,6 @@ target_link_libraries(${QTENGINE_NAME}_common
     ${QT_NAMESPACE}::Gui
 )
 
-target_compile_definitions(${QTENGINE_NAME}_common
-  PRIVATE
-    QTENGINE_CONFIG_DIR="${QTENGINE_NAME}"
-)
 if (QT_MAJOR EQUAL 5)
     if (TARGET KF5::ConfigCore)
       target_link_libraries(${QTENGINE_NAME}_common PRIVATE KF5::ConfigCore)

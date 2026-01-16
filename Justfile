@@ -34,7 +34,8 @@ debug:
     -DCMAKE_BUILD_TYPE="Debug" \
     -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
     -DCMAKE_INSTALL_PREFIX={{debugdir}} \
-    -DQTENGINE_QT_MAJOR="5"
+    -DBUILD_QT5="ON" \
+    -DBUILD_QT6="OFF"
   cmake --build {{builddir}} 
   cmake --install {{builddir}}
 

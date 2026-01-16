@@ -2,7 +2,7 @@
   pkgs ? import <nixpkgs> {},
   stdenv ? pkgs.clangStdenv,
   # qtengine ? pkgs.callPackage ./nix/qt6engine.nix {inherit stdenv;},
-  qtengine ? pkgs.libsForQt5.callPackage ./nix/qt5engine.nix {inherit stdenv;},
+  qtengine ? pkgs.callPackage ./nix/experimental.nix {inherit stdenv;},
   ...
 }: let
   tidyfox = import (pkgs.fetchFromGitea {
@@ -17,13 +17,13 @@ in
     inputsFrom = [qtengine];
 
     buildInputs = with pkgs; [
-      # kdePackages.kconfig
-      # kdePackages.kcolorscheme
-      # kdePackages.kiconthemes
+      kdePackages.kconfig
+      kdePackages.kcolorscheme
+      kdePackages.kiconthemes
 
-      libsForQt5.kconfig
-      libsForQt5.kconfigwidgets
-      libsForQt5.kiconthemes
+      # libsForQt5.kconfig
+      # libsForQt5.kconfigwidgets
+      # libsForQt5.kiconthemes
     ];
 
     nativeBuildInputs = with pkgs; [
@@ -40,17 +40,17 @@ in
     QT_DEBUG_PLUGINS = "1";
     QT_LOGGING_RULES = "qt.qpa.*=true;qtengine.*=true";
 
-    # CMAKE_PREFIX_PATH = builtins.concatStringsSep ":" (with pkgs; [
-    #   libsForQt5.qtbase.dev
-    #   libsForQt5.kconfig.dev
-    #   libsForQt5.kconfigwidgets.dev
-    #   libsForQt5.kiconthemes.dev
-    #
-    #   libsForQt5.kauth.dev
-    #   libsForQt5.kcoreaddons.dev
-    #   libsForQt5.kwidgetsaddons.dev
-    #   libsForQt5.kcodecs.dev
-    # ]);
+    CMAKE_PREFIX_PATH = builtins.concatStringsSep ":" (with pkgs; [
+      libsForQt5.qtbase.dev
+      libsForQt5.kconfig.dev
+      libsForQt5.kconfigwidgets.dev
+      libsForQt5.kiconthemes.dev
+
+      libsForQt5.kauth.dev
+      libsForQt5.kcoreaddons.dev
+      libsForQt5.kwidgetsaddons.dev
+      libsForQt5.kcodecs.dev
+    ]);
 
     shellHook = ''
       export CMAKE_BUILD_PARALLEL_LEVEL=$(nproc)
