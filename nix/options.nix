@@ -77,7 +77,7 @@ in {
             default = true;
           };
 
-          menuHaveIcons = mkOption {
+          menusHaveIcons = mkOption {
             type = bool;
             default = true;
           };
