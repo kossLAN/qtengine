@@ -140,10 +140,6 @@ QStringList PlatformTheme::iconPaths() {
 		else it = paths.erase(it);
 	}
 
-	for (const QString& p: paths) {
-		qDebug() << "Icon Path: " << p;
-	}
-
 	return paths;
 }
 
@@ -203,18 +199,20 @@ void PlatformTheme::applySettings() {
 	}
 
 	if (this->mUpdate) {
+		// NOLINTBEGIN
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 		QWindowSystemInterface::handleThemeChange();
 #else
 		QWindowSystemInterface::handleThemeChange(nullptr);
 #endif
+		// NOLINTEND
 		QCoreApplication::postEvent(qGuiApp, new QEvent(QEvent::ApplicationFontChange));
 	}
 
 #ifdef QT_WIDGETS_LIB
-	if (hasWidgets() && mUpdate) {
+	if (hasWidgets() && this->mUpdate) {
 #if QT_CONFIG(graphicsview)
-		for (auto scene: std::as_const(QApplicationPrivate::instance()->scene_list))
+		for (auto* scene: std::as_const(QApplicationPrivate::instance()->scene_list))
 			QCoreApplication::postEvent(scene, new QEvent(QEvent::ApplicationFontChange));
 #endif
 

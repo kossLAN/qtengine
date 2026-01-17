@@ -1,16 +1,18 @@
-// #include <QLatin1String>
+#include <QDebug>
 #include <QLibraryInfo>
-#include <QObject>
 #include <QString>
 #include <QStringList>
 #include <QVersionNumber>
-#include <QtPlugin>
-#include <qcontainerfwd.h>
-#include <qdebug.h>
+#include <QtContainerFwd>
 #include <qlogging.h>
 #include <qpa/qplatformtheme.h>
 #include <qpa/qplatformthemeplugin.h>
-#include <qstringlist.h>
+
+// NOLINTBEGIN
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <qtmetamacros.h>
+#endif
+// NOLINTEND
 
 #include "platformtheme.hpp"
 
@@ -25,12 +27,16 @@ public:
 		(void) params;
 
 		const QVersionNumber v = QLibraryInfo::version();
+
+		// NOLINTBEGIN
 		constexpr int expectedMajor = QT_VERSION_MAJOR;
+
 		if (v.majorVersion() != expectedMajor) {
 			qCritical() << "qtengine was compiled against an incompatible qt version. Compiled against"
 			            << expectedMajor << "but has" << v.majorVersion();
 			return nullptr;
 		}
+		// NOLINTEND
 
 		if (key.toLower() == QString::fromLatin1("qtengine")) {
 			qInfo() << "Initializing qtengine platform theme plugin";

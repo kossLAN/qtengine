@@ -25,6 +25,12 @@
 #include <qfileinfo.h>
 #include <qlogging.h>
 
+// NOLINTBEGIN
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <qtenvironmentvariables.h>
+#endif
+// NOLINTEND
+
 namespace {
 
 QJsonValue valueAtPath(const QJsonObject& root, const QString& path) {
@@ -139,7 +145,7 @@ void ConfigManager::init() {
 		return;
 	}
 
-	QJsonParseError parseError;
+	QJsonParseError parseError {};
 	const QByteArray raw = file.readAll();
 	const QJsonDocument doc = QJsonDocument::fromJson(raw, &parseError);
 

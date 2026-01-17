@@ -33,9 +33,7 @@ debug:
   cmake -GNinja -B {{builddir}} \
     -DCMAKE_BUILD_TYPE="Debug" \
     -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-    -DCMAKE_INSTALL_PREFIX={{debugdir}} \
-    -DBUILD_QT5="ON" \
-    -DBUILD_QT6="OFF"
+    -DCMAKE_INSTALL_PREFIX={{debugdir}}
   cmake --build {{builddir}} 
   cmake --install {{builddir}}
 

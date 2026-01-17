@@ -7,6 +7,7 @@
 #include <QStyleHintReturn>
 #include <QStyleOption>
 #include <QWidget>
+#include <qnamespace.h>
 
 #include "../common/common.hpp"
 #include "../common/config/configmanager.hpp"
@@ -17,13 +18,11 @@ ProxyStyle::ProxyStyle() {
 	const QString styleName = configManager().style;
 	QStyle* style = nullptr;
 
-	if (!styleName.isEmpty()
-	    && styleName.compare(QLatin1String("qtengine"), Qt::CaseInsensitive) != 0)
-	{
+	if (!styleName.isEmpty() && styleName.compare("qtengine", Qt::CaseInsensitive) != 0) {
 		style = QStyleFactory::create(styleName);
 	}
 
-	if (!style) style = QStyleFactory::create(QLatin1String("Fusion"));
+	if (!style) style = QStyleFactory::create("Fusion");
 	if (style) this->setBaseStyle(style);
 }
 

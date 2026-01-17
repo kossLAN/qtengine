@@ -45,7 +45,7 @@ private slots:
 
 private:
 #ifdef QT_WIDGETS_LIB
-	bool hasWidgets();
+	static bool hasWidgets();
 #endif
 	static QStringList iconPaths();
 	static QString loadStyleSheets(const QStringList& paths);
