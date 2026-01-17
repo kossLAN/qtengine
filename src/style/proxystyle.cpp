@@ -7,10 +7,13 @@
 #include <QStyleHintReturn>
 #include <QStyleOption>
 #include <QWidget>
+#include <QLoggingCategory>
 #include <qnamespace.h>
 
 #include "../common/common.hpp"
 #include "../common/config/configmanager.hpp"
+
+Q_LOGGING_CATEGORY(logStyle, "qtengine.style");
 
 ProxyStyle::ProxyStyle() {
 	Style::registerStyleInstance(this);
@@ -22,7 +25,11 @@ ProxyStyle::ProxyStyle() {
 		style = QStyleFactory::create(styleName);
 	}
 
-	if (!style) style = QStyleFactory::create("Fusion");
+	if (!style) {
+		style = QStyleFactory::create("Fusion");
+    qCDebug(logStyle) << "Failed to load style:" << styleName;
+	}
+
 	if (style) this->setBaseStyle(style);
 }
 

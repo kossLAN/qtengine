@@ -8,6 +8,9 @@
 #include <QJsonParseError>
 #include <QJsonValue>
 #include <QString>
+#include <QLoggingCategory>
+
+Q_DECLARE_LOGGING_CATEGORY(logConfigManager);
 
 class ConfigManager {
 public:

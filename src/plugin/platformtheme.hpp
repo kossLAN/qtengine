@@ -16,6 +16,8 @@
 #include <QObject>
 #include <QPalette>
 
+Q_DECLARE_LOGGING_CATEGORY(logPlatformTheme);
+
 class PlatformTheme
     : public QObject
     , public QGenericUnixTheme {

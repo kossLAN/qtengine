@@ -3,6 +3,7 @@
 #include <QString>
 #include <QStringList>
 #include <QVersionNumber>
+#include <QLoggingCategory>
 #include <QtContainerFwd>
 #include <qlogging.h>
 #include <qpa/qplatformtheme.h>
@@ -15,6 +16,8 @@
 // NOLINTEND
 
 #include "platformtheme.hpp"
+
+Q_LOGGING_CATEGORY(logPlatformTheme, "qtengine.platformtheme");
 
 class QtEngineThemePlugin: public QPlatformThemePlugin {
 	Q_OBJECT;
@@ -32,14 +35,17 @@ public:
 		constexpr int expectedMajor = QT_VERSION_MAJOR;
 
 		if (v.majorVersion() != expectedMajor) {
-			qCritical() << "qtengine was compiled against an incompatible qt version. Compiled against"
-			            << expectedMajor << "but has" << v.majorVersion();
+			qCCritical(
+			    logPlatformTheme
+			) << "qtengine was compiled against an incompatible qt version. Compiled against"
+			  << expectedMajor << "but has" << v.majorVersion();
 			return nullptr;
 		}
 		// NOLINTEND
 
 		if (key.toLower() == QString::fromLatin1("qtengine")) {
-			qInfo() << "Initializing qtengine platform theme plugin";
+			qCInfo(logPlatformTheme) << "Initializing qtengine platform theme plugin";
+
 			return new PlatformTheme();
 		}
 
