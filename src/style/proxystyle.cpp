@@ -8,12 +8,13 @@
 #include <QStyleHintReturn>
 #include <QStyleOption>
 #include <QWidget>
+#include <qlogging.h>
 #include <qnamespace.h>
 
 #include "../common/common.hpp"
 #include "../common/config/configmanager.hpp"
 
-Q_LOGGING_CATEGORY(logStyle, "qtengine.style");
+Q_LOGGING_CATEGORY(logStyle, "qtengine.style", QtWarningMsg);
 
 ProxyStyle::ProxyStyle() {
 	Style::registerStyleInstance(this);

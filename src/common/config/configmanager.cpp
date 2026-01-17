@@ -32,7 +32,7 @@
 #endif
 // NOLINTEND
 
-Q_LOGGING_CATEGORY(logConfigManager, "qtengine.configmanager")
+Q_LOGGING_CATEGORY(logConfigManager, "qtengine.configmanager", QtWarningMsg)
 
 namespace {
 

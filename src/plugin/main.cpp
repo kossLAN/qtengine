@@ -17,7 +17,7 @@
 
 #include "platformtheme.hpp"
 
-Q_LOGGING_CATEGORY(logPlatformTheme, "qtengine.platformtheme");
+Q_LOGGING_CATEGORY(logPlatformTheme, "qtengine.platformtheme", QtWarningMsg);
 
 class QtEngineThemePlugin: public QPlatformThemePlugin {
 	Q_OBJECT;
