@@ -109,6 +109,8 @@ Then write a config at `~/.config/qtengine/config.json`, additionally it can be 
 }
 ```
 
+Finally set the environment variable `QT_QPA_PLATFORMTHEME` to `qtengine`.
+
 ## Credits
 
 Thank you [hyprqt6engine](https://github.com/hyprwm/hyprqt6engine) & [qt6ct](https://www.opencode.net/trialuser/qt6ct) for being the foundation of this project. Also a thanks to [outfoxxed](https://github.com/outfoxxed) because I "borrowed" a lot of his C++ build tools that made working in C++ a lot less painful, especially on NixOS.
