@@ -1,8 +1,7 @@
 {
   pkgs ? import <nixpkgs> {},
   stdenv ? pkgs.clangStdenv,
-  # qtengine ? pkgs.callPackage ./nix/qt6engine.nix {inherit stdenv;},
-  qtengine ? pkgs.callPackage ./nix/experimental.nix {inherit stdenv;},
+  qtengine ? pkgs.callPackage ./nix/default.nix {inherit stdenv;},
   ...
 }: let
   tidyfox = import (pkgs.fetchFromGitea {
