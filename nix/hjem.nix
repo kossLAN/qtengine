@@ -17,10 +17,10 @@ in {
     ];
 
     xdg.config.files."qtengine/config.json".source = configFormat.generate "qtengine-config.json" cfg.config;
+
     environment.sessionVariables = {
       QT_QPA_PLATFORMTHEME = "qtengine";
       QT_STYLE_OVERRIDE = "qtengine";
-      QT6ENGINE_CONFIG = "${config.xdg.config.directory}/qtengine/config.json";
     };
   };
 }
