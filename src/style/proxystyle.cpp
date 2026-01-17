@@ -1,5 +1,6 @@
 #include "proxystyle.hpp"
 
+#include <QLoggingCategory>
 #include <QProxyStyle>
 #include <QSettings>
 #include <QString>
@@ -7,7 +8,6 @@
 #include <QStyleHintReturn>
 #include <QStyleOption>
 #include <QWidget>
-#include <QLoggingCategory>
 #include <qnamespace.h>
 
 #include "../common/common.hpp"
@@ -27,7 +27,7 @@ ProxyStyle::ProxyStyle() {
 
 	if (!style) {
 		style = QStyleFactory::create("Fusion");
-    qCDebug(logStyle) << "Failed to load style:" << styleName;
+		qCDebug(logStyle) << "Failed to load style:" << styleName;
 	}
 
 	if (style) this->setBaseStyle(style);

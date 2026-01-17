@@ -1,9 +1,9 @@
 #include <QDebug>
 #include <QLibraryInfo>
+#include <QLoggingCategory>
 #include <QString>
 #include <QStringList>
 #include <QVersionNumber>
-#include <QLoggingCategory>
 #include <QtContainerFwd>
 #include <qlogging.h>
 #include <qpa/qplatformtheme.h>
@@ -35,10 +35,9 @@ public:
 		constexpr int expectedMajor = QT_VERSION_MAJOR;
 
 		if (v.majorVersion() != expectedMajor) {
-			qCCritical(
-			    logPlatformTheme
-			) << "qtengine was compiled against an incompatible qt version. Compiled against"
-			  << expectedMajor << "but has" << v.majorVersion();
+			qCCritical(logPlatformTheme)
+			    << "qtengine was compiled against an incompatible qt version. Compiled against"
+			    << expectedMajor << "but has" << v.majorVersion();
 			return nullptr;
 		}
 		// NOLINTEND

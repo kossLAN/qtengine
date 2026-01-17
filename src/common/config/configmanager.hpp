@@ -7,8 +7,8 @@
 #include <QJsonObject>
 #include <QJsonParseError>
 #include <QJsonValue>
-#include <QString>
 #include <QLoggingCategory>
+#include <QString>
 
 Q_DECLARE_LOGGING_CATEGORY(logConfigManager);
 
