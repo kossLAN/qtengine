@@ -87,9 +87,6 @@ First you'll need the following Qt6 dependencies
 qtbase kconfig kcolorscheme kiconthemes
 ```
 
-Then write a config at `~/.config/qtengine/config.json`, additionally it can be sourced from a folder in your `XDG_CONFIG_DIRS`, or by using the `QTENGINE_CONFIG` environment variable.
-
-
 If you want Qt5 support you'll also need 
 
 ```
