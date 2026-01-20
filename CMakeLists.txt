@@ -60,7 +60,7 @@ function(build_qtengine qt_major)
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/common)
 
     if(NOT DEFINED PLUGINDIR OR PLUGINDIR STREQUAL "")
-        set(PLUGINDIR "lib/qt-${QT_MAJOR}/plugins")
+        set(PLUGINDIR "lib/qt${QT_MAJOR}/plugins")
     endif()
     
     if(QT_MAJOR EQUAL 5)
