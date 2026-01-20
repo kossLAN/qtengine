@@ -75,6 +75,10 @@ yay -S qtengine
 # yay -S qtengine-git
 ```
 
+> [!NOTE]
+>
+> These packages are unofficial and community-maintained.
+
 Then copy the example config from `/etc/qtengine/config.example.json` to `~/.config/qtengine/config.json`. Additionally, it can be sourced from a folder in your `XDG_CONFIG_DIRS`, or by using the `QTENGINE_CONFIG` environment variable.
 
 Finally set the environment variable `QT_QPA_PLATFORMTHEME` to `qtengine`.
