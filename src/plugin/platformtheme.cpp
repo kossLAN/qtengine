@@ -26,10 +26,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <QApplication>
 #include <QDir>
+#include <QFile>
+#include <QFileSystemWatcher>
 #include <QFont>
+#include <QGraphicsScene>
 #include <QGuiApplication>
 #include <QIcon>
+#include <QLoggingCategory>
 #include <QMetaObject>
 #include <QMimeDatabase>
 #include <QMimeType>
@@ -39,28 +44,18 @@
 #include <QScreen>
 #include <QSettings>
 #include <QStandardPaths>
+#include <QStyle>
+#include <QStyleFactory>
 #include <QTimer>
 #include <QVariant>
+#include <QWidget>
 #include <Qt>
 #include <QtCore/QLatin1String>
 #include <QtCore/QStringList>
 #include <QtCore/QtGlobal>
 #include <QtGlobal>
-
-#ifdef QT_WIDGETS_LIB
-#include <QApplication>
-#include <QStyle>
-#include <QStyleFactory>
-#include <QWidget>
-#if QT_CONFIG(graphicsview)
-#include <QGraphicsScene>
-#endif
-#include <private/qapplication_p.h>
-#endif
-#include <QFile>
-#include <QFileSystemWatcher>
 #ifdef QT_QUICKCONTROLS2_LIB
-#include <QQuickStyle>
+#include <QtQuickControls2/QQuickStyle>
 #endif
 
 #include <utility>
@@ -94,18 +89,24 @@ PlatformTheme::PlatformTheme()
     , mFont(*this->QGenericUnixTheme::font(QPlatformTheme::SystemFont)) {
 	if (QGuiApplication::desktopSettingsAware()) {
 		this->applySettings();
+
 		QMetaObject::invokeMethod(this, &PlatformTheme::applySettings, Qt::QueuedConnection);
+
+		const auto& cfg = configManager();
+
 		// must be applied before Q_COREAPP_STARTUP_FUNCTION execution
-		const QString colorScheme = configManager().colorScheme;
+		const QString colorScheme = cfg.colorScheme;
 		qApp->setProperty("KDE_COLOR_SCHEME_PATH", colorScheme);
 
 #if defined QT_WIDGETS_LIB && defined QT_QUICKCONTROLS2_LIB
-		if (hasWidgets())
-			// don't override the value explicitly set by the user
-			if (QQuickStyle::name().isEmpty() || QQuickStyle::name() == QLatin1String("Fusion"))
-				QQuickStyle::setStyle(QLatin1String("org.kde.desktop"));
+		if (!cfg.quickStyle.isEmpty()) {
+			QQuickStyle::setStyle(cfg.quickStyle.toLatin1());
+
+			qCDebug(logPlatformTheme) << "Loading QtQuick style:" << cfg.quickStyle;
+		}
 #endif
 	}
+
 	QCoreApplication::instance()->installEventFilter(this);
 }
 
@@ -212,24 +213,13 @@ void PlatformTheme::applySettings() {
 		QCoreApplication::postEvent(qGuiApp, new QEvent(QEvent::ApplicationFontChange));
 	}
 
-#ifdef QT_WIDGETS_LIB
-	if (hasWidgets() && this->mUpdate) {
-#if QT_CONFIG(graphicsview)
-		for (auto* scene: std::as_const(QApplicationPrivate::instance()->scene_list))
-			QCoreApplication::postEvent(scene, new QEvent(QEvent::ApplicationFontChange));
-#endif
-
+	if (this->mUpdate) {
 		for (QWidget* w: QApplication::allWidgets())
 			QCoreApplication::postEvent(w, new QEvent(QEvent::ThemeChange));
 	}
-#endif
 
 	this->mUpdate = true;
 }
-
-#ifdef QT_WIDGETS_LIB
-bool PlatformTheme::hasWidgets() { return qobject_cast<QApplication*>(qApp) != nullptr; }
-#endif
 
 QString PlatformTheme::loadStyleSheets(const QStringList& paths) {
 	QString content;

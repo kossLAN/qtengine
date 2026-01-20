@@ -32,11 +32,13 @@ in
     TIDYFOX = "${tidyfox}/lib/libtidyfox.so";
     QT_QPA_PLATFORMTHEME = "qtengine";
     QT_STYLE_OVERRIDE = "qtengine";
-    QT_DEBUG_PLUGINS = "1";
-    QT_LOGGING_RULES = "qt.qpa.*=true;qtengine.*=true";
+    # QT_DEBUG_PLUGINS = "1";
+    QT_LOGGING_RULES = "qtengine.*=true";
 
     CMAKE_PREFIX_PATH = builtins.concatStringsSep ":" (with pkgs; [
       libsForQt5.qtbase.dev
+      libsForQt5.qtdeclarative.dev
+      libsForQt5.qtquickcontrols2.dev
       libsForQt5.kconfig.dev
       libsForQt5.kconfigwidgets.dev
       libsForQt5.kiconthemes.dev
@@ -49,7 +51,7 @@ in
     shellHook = ''
       export CMAKE_BUILD_PARALLEL_LEVEL=$(nproc)
       export LD_LIBRARY_PATH=$PWD/debug/lib64
-      export QT_PLUGIN_PATH=$PWD/debug/lib/qt-5/plugins
+      export QT_PLUGIN_PATH=$PWD/debug/lib/qt5/plugins:$PWD/debug/lib/qt6/plugins
 
       # Add Qt-related environment variables.
       # https://discourse.nixos.org/t/qt-development-environment-on-a-flake-system/23707/5

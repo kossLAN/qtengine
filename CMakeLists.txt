@@ -25,7 +25,6 @@ option(BUILD_QT6 "Build with Qt6 support" ON)
 find_package(ECM ${KF5_MIN_VERSION}  REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${ECM_MODULE_PATH} )
 
-
 # nix workaround
 if (CMAKE_EXPORT_COMPILE_COMMANDS)
 	set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
@@ -65,7 +64,7 @@ function(build_qtengine qt_major)
     
     if(QT_MAJOR EQUAL 5)
         find_package(Qt5 ${QT5_MIN_VERSION} COMPONENTS Core Gui Widgets REQUIRED)
-        find_package(Qt5Gui ${QT5_MIN_VERSION} CONFIG REQUIRED Private)
+        find_package(Qt5QuickControls2 ${QT5_MIN_VERSION})
         find_package(Qt5ThemeSupport ${QT5_MIN_VERSION} CONFIG REQUIRED Private)
 
         find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
@@ -75,6 +74,7 @@ function(build_qtengine qt_major)
         add_subdirectory(src qt5engine)
     elseif(QT_MAJOR EQUAL 6)
         find_package(Qt6 ${QT6_MIN_VERSION} COMPONENTS Core Gui Widgets REQUIRED)
+        find_package(Qt6QuickControls2 ${QT6_MIN_VERSION})
 
         find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
             Config ColorScheme IconThemes

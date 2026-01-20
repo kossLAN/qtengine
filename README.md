@@ -88,13 +88,15 @@ Finally set the environment variable `QT_QPA_PLATFORMTHEME` to `qtengine`.
 First you'll need the following Qt6 dependencies
 
 ```
-extra-cmake-modules qtbase kconfig kcolorscheme kiconthemes
+required: extra-cmake-modules qtbase kconfig kcolorscheme kiconthemes
+optional: qtdeclarative
 ```
 
 If you want Qt5 support you'll also need 
 
 ```
-qtbase kconfig kconfigwidgets kiconthemes
+required: qtbase kconfig kconfigwidgets kiconthemes
+optional: qtdeclarative qtquickcontrols2
 ```
 
 Then build the project

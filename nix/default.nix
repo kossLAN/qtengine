@@ -47,6 +47,11 @@ stdenv.mkDerivation {
       "-DQt5ThemeSupport_DIR=${libsForQt5.qtbase.dev}/lib/cmake/Qt5ThemeSupport"
       "-DQt5ThemeSupport_LIBRARY=${libsForQt5.qtbase.out}/lib/libQt5ThemeSupport.a"
       "-DQt5ThemeSupport_INCLUDE_DIR=${libsForQt5.qtbase.dev}/include/QtThemeSupport/${libsForQt5.qtbase.version}"
+      "-DQt5Network_DIR=${libsForQt5.qtbase.dev}/lib/cmake/Qt5Network"
+      "-DQt5Qml_DIR=${libsForQt5.qtdeclarative.dev}/lib/cmake/Qt5Qml"
+      "-DQt5Quick_DIR=${libsForQt5.qtdeclarative.dev}/lib/cmake/Qt5Quick"
+      "-DQt5QmlModels_DIR=${libsForQt5.qtdeclarative.dev}/lib/cmake/Qt5QmlModels"
+      "-DQt5QuickControls2_DIR=${libsForQt5.qtquickcontrols2.dev}/lib/cmake/Qt5QuickControls2"
 
       "-DKF5Auth_DIR=${libsForQt5.kauth.dev}/lib/cmake/KF5Auth"
       "-DKF5Codecs_DIR=${libsForQt5.kcodecs.dev}/lib/cmake/KF5Codecs"

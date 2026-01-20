@@ -18,14 +18,11 @@ in {
     environment = {
       etc."xdg/qtengine/config.json".source = configFormat.generate "qtengine-config.json" cfg.config;
 
+      variables.QT_QPA_PLATFORMTHEME = "qtengine";
+
       systemPackages = [
         inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.default
       ];
-
-      variables = {
-        QT_QPA_PLATFORMTHEME = "qtengine";
-        QT_STYLE_OVERRIDE = "qtengine";
-      };
     };
   };
 }

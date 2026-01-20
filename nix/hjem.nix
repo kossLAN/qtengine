@@ -16,11 +16,8 @@ in {
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
 
-    xdg.config.files."qtengine/config.json".source = configFormat.generate "qtengine-config.json" cfg.config;
+    environment.sessionVariables.QT_QPA_PLATFORMTHEME = "qtengine";
 
-    environment.sessionVariables = {
-      QT_QPA_PLATFORMTHEME = "qtengine";
-      QT_STYLE_OVERRIDE = "qtengine";
-    };
+    xdg.config.files."qtengine/config.json".source = configFormat.generate "qtengine-config.json" cfg.config;
   };
 }

@@ -3,7 +3,7 @@
   configFormat,
 }: let
   inherit (lib.options) mkEnableOption mkOption;
-  inherit (lib.types) str int bool path submodule;
+  inherit (lib.types) oneOf path str int bool submodule;
 
   mkFontOption = mkOption {
     type = submodule (_: {
@@ -46,7 +46,7 @@ in {
 
             options = {
               colorScheme = mkOption {
-                type = path;
+                type = oneOf [path str];
                 default = "";
                 description = ''
                   A path to a compatible KDE color scheme file.
@@ -71,13 +71,26 @@ in {
                 '';
               };
 
-              fontFixed = mkFontOption // {
-                description = "Config for fixed/monospace fonts.";
+              quickStyle = mkOption {
+                type = str;
+                default = "";
+
+                description = ''
+                  The name of a installed theme QtQuick style.
+                '';
               };
 
-              font = mkFontOption // {
-                description = "Config for regular fonts.";
-              };
+              fontFixed =
+                mkFontOption
+                // {
+                  description = "Config for fixed/monospace fonts.";
+                };
+
+              font =
+                mkFontOption
+                // {
+                  description = "Config for regular fonts.";
+                };
             };
           });
         };

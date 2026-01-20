@@ -19,6 +19,7 @@ public:
 	QString colorScheme;
 	QString iconTheme;
 	QString style;
+	QString quickStyle;
 
 	QString fontFixed;
 	int fontFixedSize = 11;
