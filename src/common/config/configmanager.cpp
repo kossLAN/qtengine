@@ -161,6 +161,15 @@ QByteArray findConfig() {
 		if (fileInfo.exists()) return fullPath.toUtf8();
 	}
 
+	if (qEnvironmentVariableIsSet("HOME")) {
+		const QByteArray env = qgetenv("HOME");
+		const QString dir = QString::fromUtf8(env);
+		const QString fullPath = QDir(dir).filePath(".config/qtengine/config.json");
+		const QFileInfo fileInfo(fullPath);
+
+		if (fileInfo.exists()) return fullPath.toUtf8();
+	}
+
 	if (qEnvironmentVariableIsSet("XDG_CONFIG_DIRS")) {
 		const QByteArray env = qgetenv("XDG_CONFIG_DIRS");
 		const QList<QByteArray> paths = qgetenv("XDG_CONFIG_DIRS").split(':');
