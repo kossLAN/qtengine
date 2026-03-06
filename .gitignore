@@ -3,5 +3,6 @@
 /.cache
 /.direnv
 /result
+/result-qt5
 .envrc
 compile_commands.json

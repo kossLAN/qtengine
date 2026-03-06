@@ -3,13 +3,14 @@ set(QTENGINE_STYLE_SOURCES
 	proxystyle.cpp
 )
 
-add_library(${QTENGINE_NAME}_style MODULE ${QTENGINE_STYLE_SOURCES})
-add_library(${QTENGINE_NAME}::style ALIAS ${QTENGINE_NAME}_style)
+add_library(Qt6EngineStyle MODULE ${QTENGINE_STYLE_SOURCES})
+add_library(Qt6Engine::Style ALIAS Qt6EngineStyle)
+set_target_properties(Qt6EngineStyle PROPERTIES OUTPUT_NAME qt6engine-style)
 
-target_link_libraries(${QTENGINE_NAME}_style
+target_link_libraries(Qt6EngineStyle
 	PRIVATE
-		${QT_NAMESPACE}::Widgets
-		${QTENGINE_NAME}::common
+		Qt6::Widgets
+		Qt6Engine::Common
 )
 
-install(TARGETS ${QTENGINE_NAME}_style DESTINATION "${PLUGINDIR}/styles")
+install(TARGETS Qt6EngineStyle DESTINATION "${PLUGINDIR}/styles")

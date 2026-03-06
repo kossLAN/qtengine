@@ -17,6 +17,7 @@ in {
 
     packages = [
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.default.qt5
     ];
 
     xdg.config.files."qtengine/config.json".source =

@@ -4,26 +4,20 @@ set(QTENGINE_COMMON_SOURCES
   dbus/configwatcher.cpp
 )
 
-add_library(${QTENGINE_NAME}_common SHARED ${QTENGINE_COMMON_SOURCES})
-add_library(${QTENGINE_NAME}::common ALIAS ${QTENGINE_NAME}_common)
+add_library(Qt6EngineCommon SHARED ${QTENGINE_COMMON_SOURCES})
+add_library(Qt6Engine::Common ALIAS Qt6EngineCommon)
+set_target_properties(Qt6EngineCommon PROPERTIES OUTPUT_NAME qt6engine-common)
 
-target_include_directories(${QTENGINE_NAME}_common
+target_include_directories(Qt6EngineCommon
   PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-target_link_libraries(${QTENGINE_NAME}_common PUBLIC ${QT_NAMESPACE}::Core ${QT_NAMESPACE}::DBus)
+target_link_libraries(Qt6EngineCommon PUBLIC Qt6::Core Qt6::DBus)
 
-if (QT_MAJOR EQUAL 5) 
-    target_link_libraries(${QTENGINE_NAME}_common PRIVATE 
-      ${KF_NAMESPACE}::ConfigCore
-      ${KF_NAMESPACE}::ConfigWidgets
-    )
-else()
-  target_link_libraries(${QTENGINE_NAME}_common PRIVATE 
-      ${KF_NAMESPACE}::ConfigCore
-      ${KF_NAMESPACE}::ColorScheme
-  )
-endif()
+target_link_libraries(Qt6EngineCommon PRIVATE
+  KF6::ConfigCore
+  KF6::ColorScheme
+)
 
-install(TARGETS ${QTENGINE_NAME}_common DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(TARGETS Qt6EngineCommon DESTINATION ${CMAKE_INSTALL_LIBDIR})

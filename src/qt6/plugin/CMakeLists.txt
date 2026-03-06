@@ -3,29 +3,24 @@ set(QTENGINE_PLUGIN_SOURCES
 	platformtheme.cpp
 )
 
-add_library(${QTENGINE_NAME}_plugin MODULE ${QTENGINE_PLUGIN_SOURCES})
+add_library(Qt6EnginePlugin MODULE ${QTENGINE_PLUGIN_SOURCES})
+set_target_properties(Qt6EnginePlugin PROPERTIES OUTPUT_NAME qt6engine-plugin)
 
-target_compile_definitions(${QTENGINE_NAME}_plugin
+target_compile_definitions(Qt6EnginePlugin
     PRIVATE
-        $<$<TARGET_EXISTS:${QT_NAMESPACE}::QuickControls2>:QT_QUICKCONTROLS2_LIB>
+        $<$<TARGET_EXISTS:Qt6::QuickControls2>:QT_QUICKCONTROLS2_LIB>
 )
 
-target_link_libraries(${QTENGINE_NAME}_plugin
+target_link_libraries(Qt6EnginePlugin
 	PUBLIC 
-        ${QT_NAMESPACE}::Core 
-        ${QT_NAMESPACE}::Gui
+        Qt6::Core 
+        Qt6::Gui
 	PRIVATE 
-        ${QT_NAMESPACE}::GuiPrivate
-        ${QT_NAMESPACE}::Widgets
-        $<TARGET_NAME_IF_EXISTS:${QT_NAMESPACE}::QuickControls2>
-        ${KF_NAMESPACE}::IconThemes
-        ${QTENGINE_NAME}::common
+        Qt6::GuiPrivate
+        Qt6::Widgets
+        $<TARGET_NAME_IF_EXISTS:Qt6::QuickControls2>
+        KF6::IconThemes
+        Qt6Engine::Common
 )
 
-if (QT_MAJOR EQUAL 5)
-    target_link_libraries(${QTENGINE_NAME}_plugin PRIVATE 
-        ${QT_NAMESPACE}::ThemeSupport 
-        ${QT_NAMESPACE}::ThemeSupportPrivate)
-endif()
-
-install(TARGETS ${QTENGINE_NAME}_plugin DESTINATION "${PLUGINDIR}/platformthemes")
+install(TARGETS Qt6EnginePlugin DESTINATION "${PLUGINDIR}/platformthemes")
