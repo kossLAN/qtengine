@@ -1,11 +1,10 @@
 #pragma once
 
-#include <QLoggingCategory>
-#include <QProxyStyle>
-#include <QStyleHintReturn>
-#include <QStyleOption>
-#include <QWidget>
-#include <QtGlobal>
+#include <qglobal.h>
+#include <qloggingcategory.h>
+#include <qproxystyle.h>
+#include <qstyleoption.h>
+#include <qwidget.h>
 
 #include "common.hpp"
 

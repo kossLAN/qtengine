@@ -26,43 +26,37 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <QApplication>
-#include <QDir>
-#include <QFile>
-#include <QFileSystemWatcher>
-#include <QFont>
-#include <QGraphicsScene>
-#include <QGuiApplication>
-#include <QIcon>
-#include <QLoggingCategory>
-#include <QMetaObject>
-#include <QMimeDatabase>
-#include <QMimeType>
-#include <QObject>
-#include <QPalette>
-#include <QRegularExpression>
-#include <QScreen>
-#include <QSettings>
-#include <QStandardPaths>
-#include <QStyle>
-#include <QStyleFactory>
-#include <QTimer>
-#include <QVariant>
-#include <QWidget>
-#include <Qt>
-#include <QtCore/QLatin1String>
-#include <QtCore/QStringList>
-#include <QtCore/QtGlobal>
-#include <QtGlobal>
+#include <qapplication.h>
+#include <qcoreapplication.h>
+#include <qcoreevent.h>
+#include <qdir.h>
+#include <qfile.h>
+#include <qfont.h>
+#include <qguiapplication.h>
+#include <qicon.h>
+#include <qiodevice.h>
+#include <qlatin1stringview.h>
+#include <qloggingcategory.h>
+#include <qmimedatabase.h>
+#include <qmimetype.h>
+#include <qnamespace.h>
+#include <qobject.h>
+#include <qobjectdefs.h>
+#include <qpalette.h>
+#include <qregularexpression.h>
+#include <qstandardpaths.h>
+#include <qstring.h>
+#include <qstringlist.h>
+#include <qvariant.h>
+#include <qwidget.h>
 #ifdef QT_QUICKCONTROLS2_LIB
-#include <QtQuickControls2/QQuickStyle>
+#include <qquickstyle.h>
 #endif
 
 #include <utility>
 
-#include <KIconEngine>
-#include <KIconLoader>
-#include <QStringList>
+#include <kiconengine.h>
+#include <kiconloader.h>
 #include <qcontainerfwd.h>
 #include <qpa/qplatformtheme.h>
 #include <qpa/qplatformthemefactory_p.h>
@@ -74,8 +68,9 @@
 #include <private/qgenericunixthemes_p.h>
 #endif
 
-#include "../common/common.hpp"
-#include "../common/config/configmanager.hpp"
+#include "common.hpp"
+#include "config/configmanager.hpp"
+#include "dbus/configwatcher.hpp"
 #include "platformtheme.hpp"
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -108,6 +103,15 @@ PlatformTheme::PlatformTheme()
 	}
 
 	QCoreApplication::instance()->installEventFilter(this);
+
+	QMetaObject::invokeMethod(
+	    this,
+	    [this]() {
+		    auto& watcher = ConfigWatcher::instance();
+		    connect(&watcher, &ConfigWatcher::configChanged, this, &PlatformTheme::onConfigChanged);
+	    },
+	    Qt::QueuedConnection
+	);
 }
 
 bool PlatformTheme::usePlatformNativeDialog(DialogType type) const {
@@ -204,16 +208,11 @@ void PlatformTheme::applySettings() {
 	}
 
 	if (this->mUpdate) {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+		if (!qobject_cast<QApplication*>(QCoreApplication::instance())) return;
+
 		QWindowSystemInterface::handleThemeChange();
-#else
-		QWindowSystemInterface::handleThemeChange(nullptr);
-#endif
+		QApplication::setFont(this->mFont);
 
-		QCoreApplication::postEvent(qGuiApp, new QEvent(QEvent::ApplicationFontChange));
-	}
-
-	if (this->mUpdate) {
 		for (QWidget* w: QApplication::allWidgets())
 			QCoreApplication::postEvent(w, new QEvent(QEvent::ThemeChange));
 	}
@@ -250,4 +249,10 @@ bool PlatformTheme::eventFilter(QObject* obj, QEvent* e) {
 		this->applySettings();
 
 	return this->QObject::eventFilter(obj, e);
+}
+
+void PlatformTheme::onConfigChanged() {
+	configManager().reload();
+	ConfigWatcher::instance().setupFileWatching();
+	this->applySettings();
 }

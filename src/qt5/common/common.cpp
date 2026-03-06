@@ -1,30 +1,19 @@
 #include <utility>
 
-#include <KColorScheme>
-#include <KSharedConfig>
-#include <QDir>
-#include <QFile>
-#include <QLatin1String>
-#include <QLocale>
-#include <QPalette>
-#include <QRegularExpression>
-#include <QSet>
-#include <QSettings>
-#include <QStandardPaths>
-#include <QStringList>
-#include <QtCore/QDebug>
-#include <QtCore/QStringList>
-#include <QtCore/QtGlobal>
-#include <QtDebug>
-#include <QtGlobal>
-#include <qdebug.h>
+#include <kcolorscheme.h>
+#include <ksharedconfig.h>
+#include <qpalette.h>
+#include <qset.h>
+#include <qstring.h>
 
 #include "common.hpp"
 
 QSet<Style::CStyleInstance*> Style::styleInstances;
 
 QPalette Style::loadColorScheme(const QString& filePath) {
-	return KColorScheme::createApplicationPalette(KSharedConfig::openConfig(filePath));
+	auto config = KSharedConfig::openConfig(filePath);
+	config->reparseConfiguration();
+	return KColorScheme::createApplicationPalette(config);
 }
 
 void Style::registerStyleInstance(Style::CStyleInstance* instance) {

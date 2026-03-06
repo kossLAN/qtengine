@@ -1,9 +1,9 @@
 #pragma once
 
-#include <QPalette>
-#include <QSet>
-#include <QString>
-#include <QStringList>
+#include <qpalette.h>
+#include <qset.h>
+#include <qstring.h>
+#include <qstringlist.h>
 
 class Style {
 public:

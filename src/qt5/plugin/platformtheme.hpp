@@ -9,12 +9,12 @@
 #include <memory>
 #include <optional>
 
-#include <QFileInfo>
-#include <QFont>
-#include <QIcon>
-#include <QLoggingCategory>
-#include <QObject>
-#include <QPalette>
+#include <qfileinfo.h>
+#include <qfont.h>
+#include <qicon.h>
+#include <qloggingcategory.h>
+#include <qobject.h>
+#include <qpalette.h>
 
 Q_DECLARE_LOGGING_CATEGORY(logPlatformTheme);
 
@@ -44,6 +44,7 @@ protected:
 
 private slots:
 	void applySettings();
+	void onConfigChanged();
 
 private:
 	static QStringList iconPaths();

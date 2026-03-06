@@ -19,12 +19,12 @@ jobs:
       - uses: nicknovitski/nix-develop@v1
 
       - name: Check formatting
-        run: clang-format -Werror --dry-run src/**/*.{cpp,hpp}
+        run: clang-format -Werror --dry-run src/**/**/*.{cpp,hpp}
 
       # Only run lint against Qt6, because imports get messed up
       - name: Build
         run: |
-          just configure debug -DNO_PCH=ON -DBUILD_TESTING=ON -DBUILD_QT5=OFF
+          just configure debug -DNO_PCH=ON -DBUILD_TESTING=ON
           just build
 
       - name: Run lints

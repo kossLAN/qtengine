@@ -16,15 +16,16 @@
 
     hjemModules.default = import ./nix/hjem.nix inputs;
 
-    packages = forEachSystem (system: pkgs: {
-      default = pkgs.callPackage ./nix/default.nix {};
+    packages = forEachSystem (system: pkgs: rec {
+      default = qtengine;
+      qtengine = pkgs.callPackage ./nix/default.nix {};
     });
 
     devShells = forEachSystem (system: pkgs: {
       default = import ./shell.nix {
         inherit pkgs;
 
-        qt6engine = self.packages.${system}.qt6engine.override {
+        qtengine = self.packages.${system}.qtengine.override {
           stdenv = pkgs.clangStdenv;
         };
       };

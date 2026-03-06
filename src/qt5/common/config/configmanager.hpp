@@ -1,20 +1,22 @@
 #pragma once
 
-#include <QDebug>
-#include <QFile>
-#include <QJsonArray>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonParseError>
-#include <QJsonValue>
-#include <QLoggingCategory>
-#include <QString>
+#include <qdebug.h>
+#include <qfile.h>
+#include <qjsonarray.h>
+#include <qjsondocument.h>
+#include <qjsonobject.h>
+#include <qjsonvalue.h>
+#include <qloggingcategory.h>
+#include <qstring.h>
 
 Q_DECLARE_LOGGING_CATEGORY(logConfigManager);
 
 class ConfigManager {
 public:
 	void init();
+	void reload();
+
+	QString configPath;
 
 	QString colorScheme;
 	QString iconTheme;
@@ -32,6 +34,9 @@ public:
 	bool singleClickActivate = true;
 	bool menusHaveIcons = true;
 	bool shortcutsForContextMenus = true;
+
+private:
+	void loadFromPath(const QString& path);
 };
 
-const ConfigManager& configManager();
+ConfigManager& configManager();

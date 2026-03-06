@@ -2,28 +2,26 @@
 #include <cmath>
 #include <mutex>
 
-#include <QDebug>
-#include <QDir>
-#include <QFile>
-#include <QIODevice>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonParseError>
-#include <QJsonValue>
-#include <QList>
-#include <QLoggingCategory>
-#include <QStandardPaths>
-#include <QString>
-#include <Qt>
-#include <QtGlobal>
 #include <qdebug.h>
+#include <qdir.h>
+#include <qfile.h>
 #include <qfileinfo.h>
+#include <qiodevice.h>
+#include <qjsondocument.h>
+#include <qjsonobject.h>
+#include <qjsonvalue.h>
+#include <qlist.h>
 #include <qlogging.h>
+#include <qloggingcategory.h>
+#include <qnamespace.h>
+#include <qstring.h>
 #include <qstringview.h>
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <qtenvironmentvariables.h>
 #include <qtversionchecks.h>
+#else
+#include <qglobal.h>
 #endif
 
 Q_LOGGING_CATEGORY(logConfigManager, "qtengine.configmanager", QtWarningMsg)
@@ -143,13 +141,13 @@ bool getBool(const QJsonObject& root, const QString& path, bool defaultVal = fal
 	return defaultVal;
 }
 
-QByteArray findConfig() {
+QString findConfig() {
 	if (qEnvironmentVariableIsSet("QTENGINE_CONFIG")) {
 		const QByteArray env = qgetenv("QTENGINE_CONFIG");
 		const QString path = QString::fromUtf8(env);
 		const QFileInfo fileInfo(path);
 
-		if (fileInfo.exists()) return env;
+		if (fileInfo.exists()) return path;
 	}
 
 	if (qEnvironmentVariableIsSet("XDG_CONFIG_HOME")) {
@@ -158,7 +156,7 @@ QByteArray findConfig() {
 		const QString fullPath = QDir(dir).filePath("qtengine/config.json");
 		const QFileInfo fileInfo(fullPath);
 
-		if (fileInfo.exists()) return fullPath.toUtf8();
+		if (fileInfo.exists()) return fullPath;
 	}
 
 	if (qEnvironmentVariableIsSet("HOME")) {
@@ -167,7 +165,7 @@ QByteArray findConfig() {
 		const QString fullPath = QDir(dir).filePath(".config/qtengine/config.json");
 		const QFileInfo fileInfo(fullPath);
 
-		if (fileInfo.exists()) return fullPath.toUtf8();
+		if (fileInfo.exists()) return fullPath;
 	}
 
 	if (qEnvironmentVariableIsSet("XDG_CONFIG_DIRS")) {
@@ -178,20 +176,26 @@ QByteArray findConfig() {
 			const QString fullPath = QDir(p).filePath("qtengine/config.json");
 			const QFileInfo fileInfo(fullPath);
 
-			if (fileInfo.exists()) return fullPath.toUtf8();
+			if (fileInfo.exists()) return fullPath;
 		}
 	}
 
-	return QByteArray();
+	return QString();
 }
 } // namespace
 
 void ConfigManager::init() {
-	const QByteArray configPath = findConfig();
-	QFile file(configPath);
+	this->configPath = findConfig();
+	this->loadFromPath(this->configPath);
+}
+
+void ConfigManager::reload() { this->loadFromPath(this->configPath); }
+
+void ConfigManager::loadFromPath(const QString& path) {
+	QFile file(path);
 
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		qCDebug(logConfigManager) << "Failed to open config file" << configPath;
+		qCDebug(logConfigManager) << "Failed to open config file" << path;
 		return;
 	}
 
@@ -230,7 +234,7 @@ void ConfigManager::init() {
 	this->shortcutsForContextMenus = getBool(root, "misc.shortcutsForContextMenus", true);
 }
 
-const ConfigManager& configManager() {
+ConfigManager& configManager() {
 	static ConfigManager instance;
 	static std::once_flag initFlag;
 	std::call_once(initFlag, [&]() { instance.init(); });
