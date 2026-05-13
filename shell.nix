@@ -39,13 +39,13 @@ in
       libsForQt5.qtbase.dev
       libsForQt5.qtdeclarative.dev
       libsForQt5.qtquickcontrols2.dev
-      libsForQt5.kconfig.dev
-      libsForQt5.kconfigwidgets.dev
-      libsForQt5.kiconthemes.dev
-      libsForQt5.kauth.dev
-      libsForQt5.kcoreaddons.dev
-      libsForQt5.kwidgetsaddons.dev
-      libsForQt5.kcodecs.dev
+      libsForQt5.__internalKF5.kconfig.dev
+      libsForQt5.__internalKF5.kconfigwidgets.dev
+      libsForQt5.__internalKF5.kiconthemes.dev
+      libsForQt5.__internalKF5.kauth.dev
+      libsForQt5.__internalKF5.kcoreaddons.dev
+      libsForQt5.__internalKF5.kwidgetsaddons.dev
+      libsForQt5.__internalKF5.kcodecs.dev
     ]);
 
     shellHook = ''
