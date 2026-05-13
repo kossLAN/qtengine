@@ -49,14 +49,14 @@ stdenv.mkDerivation {
     "-DQt5QmlModels_DIR=${libsForQt5.qtdeclarative.dev}/lib/cmake/Qt5QmlModels"
     "-DQt5QuickControls2_DIR=${libsForQt5.qtquickcontrols2.dev}/lib/cmake/Qt5QuickControls2"
 
-    "-DKF5Auth_DIR=${libsForQt5.kauth.dev}/lib/cmake/KF5Auth"
-    "-DKF5Codecs_DIR=${libsForQt5.kcodecs.dev}/lib/cmake/KF5Codecs"
-    "-DKF5Config_DIR=${libsForQt5.kconfig.dev}/lib/cmake/KF5Config"
-    "-DKF5ConfigWidgets_DIR=${libsForQt5.kconfigwidgets.dev}/lib/cmake/KF5ConfigWidgets"
-    "-DKF5CoreAddons_DIR=${libsForQt5.kcoreaddons.dev}/lib/cmake/KF5CoreAddons"
-    "-DKF5GuiAddons_DIR=${libsForQt5.kguiaddons.dev}/lib/cmake/KF5GuiAddons"
-    "-DKF5IconThemes_DIR=${libsForQt5.kiconthemes.dev}/lib/cmake/KF5IconThemes"
-    "-DKF5WidgetsAddons_DIR=${libsForQt5.kwidgetsaddons.dev}/lib/cmake/KF5WidgetsAddons"
+    "-DKF5Auth_DIR=${libsForQt5.__internalKF5.kauth.dev}/lib/cmake/KF5Auth"
+    "-DKF5Codecs_DIR=${libsForQt5.__internalKF5.kcodecs.dev}/lib/cmake/KF5Codecs"
+    "-DKF5Config_DIR=${libsForQt5.__internalKF5.kconfig.dev}/lib/cmake/KF5Config"
+    "-DKF5ConfigWidgets_DIR=${libsForQt5.__internalKF5.kconfigwidgets.dev}/lib/cmake/KF5ConfigWidgets"
+    "-DKF5CoreAddons_DIR=${libsForQt5.__internalKF5.kcoreaddons.dev}/lib/cmake/KF5CoreAddons"
+    "-DKF5GuiAddons_DIR=${libsForQt5.__internalKF5.kguiaddons.dev}/lib/cmake/KF5GuiAddons"
+    "-DKF5IconThemes_DIR=${libsForQt5.__internalKF5.kiconthemes.dev}/lib/cmake/KF5IconThemes"
+    "-DKF5WidgetsAddons_DIR=${libsForQt5.__internalKF5.kwidgetsaddons.dev}/lib/cmake/KF5WidgetsAddons"
   ];
 
   dontWrapQtApps = true;
