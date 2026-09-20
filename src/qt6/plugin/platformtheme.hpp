@@ -6,7 +6,6 @@
 #else
 #include <private/qgenericunixthemes_p.h>
 #endif
-#include <memory>
 #include <optional>
 
 #include <qfileinfo.h>
@@ -29,8 +28,6 @@ public:
 
 	Q_DISABLE_COPY_MOVE(PlatformTheme)
 
-	[[nodiscard]] bool usePlatformNativeDialog(DialogType type) const override;
-	[[nodiscard]] QPlatformDialogHelper* createPlatformDialogHelper(DialogType type) const override;
 	[[nodiscard]] const QPalette* palette(Palette type = SystemPalette) const override;
 	[[nodiscard]] const QFont* font(Font type = SystemFont) const override;
 	[[nodiscard]] QVariant themeHint(ThemeHint hint) const override;
@@ -48,13 +45,9 @@ private slots:
 
 private:
 	static QStringList iconPaths();
-	static QString loadStyleSheets(const QStringList& paths);
-	QString mPrevStyleSheet;
 	QString mStyleName;
 	QFont mFixedFont;
 	QFont mFont;
 	std::optional<QPalette> mPalette;
 	bool mUpdate = false;
-	bool mIsIgnored = false;
-	std::unique_ptr<QPlatformTheme> mTheme;
 };

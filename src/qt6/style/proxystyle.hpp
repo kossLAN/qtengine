@@ -6,21 +6,15 @@
 #include <qstyleoption.h>
 #include <qwidget.h>
 
-#include "common.hpp"
-
 Q_DECLARE_LOGGING_CATEGORY(logStyle);
 
-class ProxyStyle
-    : public QProxyStyle
-    , public Style::CStyleInstance {
+class ProxyStyle: public QProxyStyle {
 	Q_OBJECT;
 
 public:
 	explicit ProxyStyle();
 
-	void reloadSettings() override {}
-
-	~ProxyStyle() override;
+	~ProxyStyle() override = default;
 
 	Q_DISABLE_COPY_MOVE(ProxyStyle)
 

@@ -1,4 +1,3 @@
-#include <qlibraryinfo.h>
 #include <qlogging.h>
 #include <qloggingcategory.h>
 #include <qobjectdefs.h>
@@ -6,7 +5,6 @@
 #include <qpa/qplatformthemeplugin.h>
 #include <qstring.h>
 #include <qstringlist.h>
-#include <qversionnumber.h>
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <qtmetamacros.h>
@@ -28,17 +26,6 @@ class QtEngineThemePlugin: public QPlatformThemePlugin {
 public:
 	QPlatformTheme* create(const QString& key, const QStringList& params) override {
 		(void) params;
-
-		const QVersionNumber v = QLibraryInfo::version();
-
-		constexpr int expectedMajor = QT_VERSION_MAJOR; // NOLINT
-
-		if (v.majorVersion() != expectedMajor) {
-			qCCritical(logPlatformTheme)
-			    << "qtengine was compiled against an incompatible qt version. Compiled against"
-			    << expectedMajor << "but has" << v.majorVersion();
-			return nullptr;
-		}
 
 		if (key.toLower() == QString::fromLatin1("qtengine")) {
 			qCInfo(logPlatformTheme) << "Initializing qtengine platform theme plugin";

@@ -9,14 +9,11 @@
 #include <qstyleoption.h>
 #include <qwidget.h>
 
-#include "common.hpp"
 #include "config/configmanager.hpp"
 
 Q_LOGGING_CATEGORY(logStyle, "qtengine.style", QtWarningMsg);
 
 ProxyStyle::ProxyStyle() {
-	Style::registerStyleInstance(this);
-
 	const QString styleName = configManager().style;
 	QStyle* style = nullptr;
 
@@ -31,8 +28,6 @@ ProxyStyle::ProxyStyle() {
 
 	if (style) this->setBaseStyle(style);
 }
-
-ProxyStyle::~ProxyStyle() { Style::unregisterStyleInstance(this); }
 
 int ProxyStyle::styleHint(
     QStyle::StyleHint hint,

@@ -50,12 +50,8 @@ ConfigWatcher::ConfigWatcher(QObject* parent)
 		return;
 	}
 
-	this->mServiceWatcher = new QDBusServiceWatcher(
-	    SERVICE_NAME,
-	    bus,
-	    QDBusServiceWatcher::WatchForRegistration | QDBusServiceWatcher::WatchForUnregistration,
-	    this
-	);
+	this->mServiceWatcher =
+	    new QDBusServiceWatcher(SERVICE_NAME, bus, QDBusServiceWatcher::WatchForUnregistration, this);
 
 	connect(
 	    this->mServiceWatcher,

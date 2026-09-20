@@ -30,11 +30,9 @@
 #include <qcoreapplication.h>
 #include <qcoreevent.h>
 #include <qdir.h>
-#include <qfile.h>
 #include <qfont.h>
 #include <qguiapplication.h>
 #include <qicon.h>
-#include <qiodevice.h>
 #include <qloggingcategory.h>
 #include <qmimedatabase.h>
 #include <qmimetype.h>
@@ -42,7 +40,6 @@
 #include <qobject.h>
 #include <qobjectdefs.h>
 #include <qpalette.h>
-#include <qregularexpression.h>
 #include <qstandardpaths.h>
 #include <qstring.h>
 #include <qstringlist.h>
@@ -53,8 +50,6 @@
 #ifdef QT_QUICKCONTROLS2_LIB
 #include <qquickstyle.h>
 #endif
-
-#include <utility>
 
 #include <kiconengine.h>
 #include <kiconloader.h>
@@ -117,16 +112,6 @@ PlatformTheme::PlatformTheme()
 	);
 }
 
-bool PlatformTheme::usePlatformNativeDialog(DialogType type) const {
-	return this->mTheme ? this->mTheme->usePlatformNativeDialog(type)
-	                    : this->QGenericUnixTheme::usePlatformNativeDialog(type);
-}
-
-QPlatformDialogHelper* PlatformTheme::createPlatformDialogHelper(DialogType type) const {
-	return this->mTheme ? this->mTheme->createPlatformDialogHelper(type)
-	                    : this->QGenericUnixTheme::createPlatformDialogHelper(type);
-}
-
 const QPalette* PlatformTheme::palette(QPlatformTheme::Palette type) const {
 	if (type == QPlatformTheme::SystemPalette && this->mPalette) return &*this->mPalette;
 	return this->QGenericUnixTheme::palette(type);
@@ -156,8 +141,6 @@ QStringList PlatformTheme::iconPaths() {
 }
 
 QVariant PlatformTheme::themeHint(QPlatformTheme::ThemeHint hint) const {
-	if (this->mIsIgnored) return this->QGenericUnixTheme::themeHint(hint);
-
 	const auto& cfg = configManager();
 
 	switch (hint) {
@@ -193,7 +176,7 @@ QIconEngine* PlatformTheme::createIconEngine(const QString& iconName) const {
 }
 
 void PlatformTheme::applySettings() {
-	if (!QGuiApplication::desktopSettingsAware() || this->mIsIgnored) {
+	if (!QGuiApplication::desktopSettingsAware()) {
 		this->mUpdate = true;
 		return;
 	}
@@ -231,29 +214,11 @@ void PlatformTheme::applySettings() {
 	this->mUpdate = true;
 }
 
-QString PlatformTheme::loadStyleSheets(const QStringList& paths) {
-	QString content;
-	for (const QString& path: std::as_const(paths)) {
-		if (!QFile::exists(path)) continue;
-
-		QFile file(path);
-		if (file.open(QIODevice::ReadOnly)) {
-			content.append(QString::fromUtf8(file.readAll()));
-			if (!content.endsWith(QChar::LineFeed)) content.append(QChar::LineFeed);
-		}
-	}
-	static const QRegularExpression regExp(QString::fromLatin1("//.*\n"));
-	content.replace(regExp, QString::fromLatin1("\n"));
-	return content;
-}
-
 // There's such a thing as KColorSchemeManager that lets the user to change the
 // color scheme application-wide and we should re-apply the color scheme if KCSM
 // resets it to the default which leads KColorScheme to get the color scheme
 // from kdeglobals which won't help us.
 bool PlatformTheme::eventFilter(QObject* obj, QEvent* e) {
-	const QString colorScheme = configManager().colorScheme;
-
 	if (obj == qApp && e->type() == QEvent::DynamicPropertyChange
 	    && dynamic_cast<QDynamicPropertyChangeEvent*>(e)->propertyName() == "KDE_COLOR_SCHEME_PATH"
 	    && qApp->property("KDE_COLOR_SCHEME_PATH").toString().isEmpty())
