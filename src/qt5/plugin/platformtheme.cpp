@@ -53,27 +53,17 @@
 
 #include <kiconengine.h>
 #include <kiconloader.h>
+#include <private/qgenericunixthemes_p.h>
 #include <qcontainerfwd.h>
+#include <qglobal.h>
 #include <qpa/qplatformtheme.h>
 #include <qpa/qplatformthemefactory_p.h>
 #include <qpa/qwindowsysteminterface.h>
-
-#if __has_include(<private/qgenericunixtheme_p.h>)
-#include <private/qgenericunixtheme_p.h>
-#else
-#include <private/qgenericunixthemes_p.h>
-#endif
 
 #include "common.hpp"
 #include "config/configmanager.hpp"
 #include "dbus/configwatcher.hpp"
 #include "platformtheme.hpp"
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#include <qtversionchecks.h>
-#else
-#include <qglobal.h>
-#endif
 
 // QT_QPA_PLATFORMTHEME=qtengine
 

@@ -17,11 +17,7 @@
 #include <qnamespace.h>
 #include <qstring.h>
 #include <qstringview.h>
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <qtenvironmentvariables.h>
-#include <qtversionchecks.h>
-#endif
 
 Q_LOGGING_CATEGORY(logConfigManager, "qtengine.configmanager", QtWarningMsg)
 

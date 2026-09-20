@@ -70,10 +70,6 @@
 #include "dbus/configwatcher.hpp"
 #include "platformtheme.hpp"
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#include <qtversionchecks.h>
-#endif
-
 // QT_QPA_PLATFORMTHEME=qtengine
 
 PlatformTheme::PlatformTheme()

@@ -1,18 +1,14 @@
 #pragma once
 
-#include <qpa/qplatformtheme.h>
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 10, 0))
-#include <private/qgenericunixtheme_p.h>
-#else
-#include <private/qgenericunixthemes_p.h>
-#endif
 #include <optional>
 
+#include <private/qgenericunixthemes_p.h>
 #include <qfileinfo.h>
 #include <qfont.h>
 #include <qicon.h>
 #include <qloggingcategory.h>
 #include <qobject.h>
+#include <qpa/qplatformtheme.h>
 #include <qpalette.h>
 
 Q_DECLARE_LOGGING_CATEGORY(logPlatformTheme);

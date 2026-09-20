@@ -7,6 +7,7 @@
 #include <qdir.h>
 #include <qfile.h>
 #include <qfileinfo.h>
+#include <qglobal.h>
 #include <qiodevice.h>
 #include <qjsondocument.h>
 #include <qjsonobject.h>
@@ -16,13 +17,6 @@
 #include <qnamespace.h>
 #include <qstring.h>
 #include <qstringview.h>
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#include <qtenvironmentvariables.h>
-#include <qtversionchecks.h>
-#else
-#include <qglobal.h>
-#endif
 
 Q_LOGGING_CATEGORY(logConfigManager, "qtengine.configmanager", QtWarningMsg)
 
