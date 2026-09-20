@@ -44,7 +44,6 @@ int ProxyStyle::styleHint(
 	const auto& cfg = configManager();
 
 	switch (hint) {
-	case QStyle::SH_DialogButtonBox_ButtonsHaveIcons: return cfg.menusHaveIcons ? 1 : 0;
 	case QStyle::SH_ItemView_ActivateItemOnSingleClick: return cfg.singleClickActivate ? 1 : 0;
 	case QStyle::SH_UnderlineShortcut: return cfg.shortcutsForContextMenus ? 1 : 0;
 	default: break;

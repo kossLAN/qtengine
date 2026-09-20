@@ -169,6 +169,7 @@ QVariant PlatformTheme::themeHint(QPlatformTheme::ThemeHint hint) const {
 	case QPlatformTheme::UiEffects: return {};
 	case QPlatformTheme::WheelScrollLines: return 3;
 	case QPlatformTheme::ShowShortcutsInContextMenus: return cfg.shortcutsForContextMenus;
+	case QPlatformTheme::ShowIconsInMenus: return cfg.menusHaveIcons;
 	default: return this->QGenericUnixTheme::themeHint(hint);
 	}
 }
@@ -200,6 +201,8 @@ void PlatformTheme::applySettings() {
 	this->mFont = QFont(cfg.font, cfg.fontSize, cfg.fontWeight);
 	this->mFixedFont = QFont(cfg.fontFixed, cfg.fontFixedSize, cfg.fontFixedWeight);
 	this->mPalette = Style::loadColorScheme(cfg.colorScheme);
+
+	QCoreApplication::setAttribute(Qt::AA_DontShowIconsInMenus, !cfg.menusHaveIcons);
 
 	if (!cfg.colorScheme.isEmpty()) {
 		qApp->setProperty("KDE_COLOR_SCHEME_PATH", cfg.colorScheme);

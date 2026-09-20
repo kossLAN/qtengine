@@ -202,6 +202,8 @@ void PlatformTheme::applySettings() {
 	this->mFixedFont = QFont(cfg.fontFixed, cfg.fontFixedSize, cfg.fontFixedWeight);
 	this->mPalette = Style::loadColorScheme(cfg.colorScheme);
 
+	QCoreApplication::setAttribute(Qt::AA_DontShowIconsInMenus, !cfg.menusHaveIcons);
+
 	if (!cfg.colorScheme.isEmpty()) {
 		qApp->setProperty("KDE_COLOR_SCHEME_PATH", cfg.colorScheme);
 	} else if (this->mUpdate) {
