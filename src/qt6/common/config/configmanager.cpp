@@ -2,6 +2,7 @@
 #include <cmath>
 #include <mutex>
 
+#include <qbytearray.h>
 #include <qdebug.h>
 #include <qdir.h>
 #include <qfile.h>
@@ -11,7 +12,6 @@
 #include <qjsonobject.h>
 #include <qjsonparseerror.h>
 #include <qjsonvalue.h>
-#include <qlist.h>
 #include <qlogging.h>
 #include <qloggingcategory.h>
 #include <qnamespace.h>
@@ -167,16 +167,15 @@ QString findConfig() {
 		if (fileInfo.exists()) return fullPath;
 	}
 
-	if (qEnvironmentVariableIsSet("XDG_CONFIG_DIRS")) {
-		const QByteArray env = qgetenv("XDG_CONFIG_DIRS");
-		const QList<QByteArray> paths = qgetenv("XDG_CONFIG_DIRS").split(':');
+	const QByteArray configDirs = qEnvironmentVariableIsSet("XDG_CONFIG_DIRS")
+	                                ? qgetenv("XDG_CONFIG_DIRS")
+	                                : QByteArrayLiteral("/etc/xdg");
 
-		for (const QByteArray& p: paths) {
-			const QString fullPath = QDir(p).filePath("qtengine/config.json");
-			const QFileInfo fileInfo(fullPath);
+	for (const QByteArray& p: configDirs.split(':')) {
+		const QString fullPath = QDir(p).filePath("qtengine/config.json");
+		const QFileInfo fileInfo(fullPath);
 
-			if (fileInfo.exists()) return fullPath;
-		}
+		if (fileInfo.exists()) return fullPath;
 	}
 
 	return QString();
