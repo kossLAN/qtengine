@@ -23,7 +23,7 @@ option(BUILD_QT5 "Build with Qt5 support" ON)
 option(BUILD_QT6 "Build with Qt6 support" ON)
 
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${ECM_MODULE_PATH})
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 # nix workaround
 if (CMAKE_EXPORT_COMPILE_COMMANDS)
