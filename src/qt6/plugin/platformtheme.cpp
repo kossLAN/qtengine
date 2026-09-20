@@ -54,6 +54,7 @@
 
 #include <kiconengine.h>
 #include <kiconloader.h>
+#include <private/qiconloader_p.h>
 #include <qcontainerfwd.h>
 #include <qpa/qplatformtheme.h>
 #include <qpa/qplatformthemefactory_p.h>
@@ -195,11 +196,15 @@ void PlatformTheme::applySettings() {
 	if (this->mUpdate) {
 		if (!qobject_cast<QApplication*>(QCoreApplication::instance())) return;
 
+		QIconLoader::instance()->updateSystemTheme();
+		KIconLoader::global()->newIconLoader();
 		QWindowSystemInterface::handleThemeChange();
 		QApplication::setFont(this->mFont);
 
-		for (QWidget* w: QApplication::allWidgets())
+		for (QWidget* w: QApplication::allWidgets()) {
 			QCoreApplication::postEvent(w, new QEvent(QEvent::ThemeChange));
+			w->update();
+		}
 
 		if (cfg.style != this->mStyleName
 		    && QApplication::style()->objectName() == QString::fromLatin1("qtengine"))
