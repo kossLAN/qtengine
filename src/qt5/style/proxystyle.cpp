@@ -45,7 +45,6 @@ int ProxyStyle::styleHint(
 
 	switch (hint) {
 	case QStyle::SH_ItemView_ActivateItemOnSingleClick: return cfg.singleClickActivate ? 1 : 0;
-	case QStyle::SH_UnderlineShortcut: return cfg.shortcutsForContextMenus ? 1 : 0;
 	default: break;
 	}
 
