@@ -200,7 +200,8 @@ void PlatformTheme::applySettings() {
 
 	this->mFont = QFont(cfg.font, cfg.fontSize, cfg.fontWeight);
 	this->mFixedFont = QFont(cfg.fontFixed, cfg.fontFixedSize, cfg.fontFixedWeight);
-	this->mPalette = Style::loadColorScheme(cfg.colorScheme);
+	if (cfg.colorScheme.isEmpty()) this->mPalette.reset();
+	else this->mPalette = Style::loadColorScheme(cfg.colorScheme);
 
 	QCoreApplication::setAttribute(Qt::AA_DontShowIconsInMenus, !cfg.menusHaveIcons);
 
