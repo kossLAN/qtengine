@@ -50,6 +50,7 @@ private:
 	static QStringList iconPaths();
 	static QString loadStyleSheets(const QStringList& paths);
 	QString mPrevStyleSheet;
+	QString mStyleName;
 	QFont mFixedFont;
 	QFont mFont;
 	std::optional<QPalette> mPalette;

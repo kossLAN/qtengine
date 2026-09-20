@@ -46,6 +46,8 @@
 #include <qstandardpaths.h>
 #include <qstring.h>
 #include <qstringlist.h>
+#include <qstyle.h>
+#include <qstylefactory.h>
 #include <qvariant.h>
 #include <qwidget.h>
 #ifdef QT_QUICKCONTROLS2_LIB
@@ -219,8 +221,13 @@ void PlatformTheme::applySettings() {
 
 		for (QWidget* w: QApplication::allWidgets())
 			QCoreApplication::postEvent(w, new QEvent(QEvent::ThemeChange));
+
+		if (cfg.style != this->mStyleName
+		    && QApplication::style()->objectName() == QString::fromLatin1("qtengine"))
+			QApplication::setStyle(QStyleFactory::create(QString::fromLatin1("qtengine")));
 	}
 
+	this->mStyleName = cfg.style;
 	this->mUpdate = true;
 }
 
