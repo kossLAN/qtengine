@@ -3,7 +3,7 @@
   configFormat,
 }: let
   inherit (lib.options) mkEnableOption mkOption;
-  inherit (lib.types) oneOf path str int bool submodule;
+  inherit (lib.types) oneOf nullOr path str int bool submodule;
 
   mkFontOption = mkOption {
     type = submodule (_: {
@@ -11,13 +11,13 @@
 
       options = {
         family = mkOption {
-          type = str;
-          default = "";
+          type = nullOr str;
+          default = null;
         };
 
         size = mkOption {
           type = int;
-          default = 10;
+          default = 11;
         };
 
         weight = mkOption {
