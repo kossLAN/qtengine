@@ -47,6 +47,7 @@ private slots:
 private:
 	static QStringList iconPaths();
 	QString mStyleName;
+	QString mIconThemeName;
 	QFont mFixedFont;
 	QFont mFont;
 	std::optional<QPalette> mPalette;

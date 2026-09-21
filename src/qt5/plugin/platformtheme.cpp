@@ -190,8 +190,10 @@ void PlatformTheme::applySettings() {
 	if (this->mUpdate) {
 		if (!qobject_cast<QApplication*>(QCoreApplication::instance())) return;
 
-		QIconLoader::instance()->updateSystemTheme();
-		KIconLoader::global()->newIconLoader();
+		if (cfg.iconTheme != this->mIconThemeName && !QIconLoader::instance()->hasUserTheme()) {
+			QIconLoader::instance()->updateSystemTheme();
+			KIconLoader::global()->newIconLoader();
+		}
 		QWindowSystemInterface::handleThemeChange(nullptr);
 		QApplication::setFont(this->mFont);
 
@@ -206,6 +208,7 @@ void PlatformTheme::applySettings() {
 	}
 
 	this->mStyleName = cfg.style;
+	this->mIconThemeName = cfg.iconTheme;
 	this->mUpdate = true;
 }
 
