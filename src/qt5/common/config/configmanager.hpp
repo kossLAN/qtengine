@@ -35,6 +35,14 @@ public:
 	bool menusHaveIcons = true;
 	bool shortcutsForContextMenus = true;
 
+	int cursorFlashTime = 1000;
+	int mouseDoubleClickInterval = 400;
+	int toolButtonStyle = 4;
+	int dialogButtonBoxLayout = 0;
+	int keyboardScheme = 2;
+	int uiEffects = 0;
+	int wheelScrollLines = 3;
+
 private:
 	void loadFromPath(const QString& path);
 };

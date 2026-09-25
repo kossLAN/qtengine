@@ -225,6 +225,14 @@ void ConfigManager::loadFromPath(const QString& path) {
 	this->singleClickActivate = getBool(root, "misc.singleClickActivate", true);
 	this->menusHaveIcons = getBool(root, "misc.menusHaveIcons", true);
 	this->shortcutsForContextMenus = getBool(root, "misc.shortcutsForContextMenus", true);
+
+	this->cursorFlashTime = getInt(root, "misc.cursorFlashTime", 1000);
+	this->mouseDoubleClickInterval = getInt(root, "misc.mouseDoubleClickInterval", 400);
+	this->toolButtonStyle = getInt(root, "misc.toolButtonStyle", 4);
+	this->dialogButtonBoxLayout = getInt(root, "misc.dialogButtonBoxLayout", 0);
+	this->keyboardScheme = getInt(root, "misc.keyboardScheme", 2);
+	this->uiEffects = getInt(root, "misc.uiEffects", 0);
+	this->wheelScrollLines = getInt(root, "misc.wheelScrollLines", 3);
 }
 
 ConfigManager& configManager() {

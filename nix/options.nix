@@ -110,6 +110,41 @@ in {
             type = bool;
             default = true;
           };
+
+          cursorFlashTime = mkOption {
+            type = int;
+            default = 1000;
+          };
+
+          mouseDoubleClickInterval = mkOption {
+            type = int;
+            default = 400;
+          };
+
+          toolButtonStyle = mkOption {
+            type = int;
+            default = 4;
+          };
+
+          dialogButtonBoxLayout = mkOption {
+            type = int;
+            default = 0;
+          };
+
+          keyboardScheme = mkOption {
+            type = int;
+            default = 2;
+          };
+
+          uiEffects = mkOption {
+            type = int;
+            default = 0;
+          };
+
+          wheelScrollLines = mkOption {
+            type = int;
+            default = 3;
+          };
         };
       };
     });

@@ -140,16 +140,16 @@ QVariant PlatformTheme::themeHint(QPlatformTheme::ThemeHint hint) const {
 	const auto& cfg = configManager();
 
 	switch (hint) {
-	case QPlatformTheme::CursorFlashTime: return 1000;
-	case QPlatformTheme::MouseDoubleClickInterval: return 400;
-	case QPlatformTheme::ToolButtonStyle: return 4;
+	case QPlatformTheme::CursorFlashTime: return cfg.cursorFlashTime;
+	case QPlatformTheme::MouseDoubleClickInterval: return cfg.mouseDoubleClickInterval;
+	case QPlatformTheme::ToolButtonStyle: return cfg.toolButtonStyle;
 	case QPlatformTheme::SystemIconThemeName: return cfg.iconTheme;
 	case QPlatformTheme::StyleNames: return {QString::fromLatin1("qtengine")};
 	case QPlatformTheme::IconThemeSearchPaths: return iconPaths();
-	case QPlatformTheme::DialogButtonBoxLayout: return 0;
-	case QPlatformTheme::KeyboardScheme: return 2;
-	case QPlatformTheme::UiEffects: return {};
-	case QPlatformTheme::WheelScrollLines: return 3;
+	case QPlatformTheme::DialogButtonBoxLayout: return cfg.dialogButtonBoxLayout;
+	case QPlatformTheme::KeyboardScheme: return cfg.keyboardScheme;
+	case QPlatformTheme::UiEffects: return cfg.uiEffects;
+	case QPlatformTheme::WheelScrollLines: return cfg.wheelScrollLines;
 	case QPlatformTheme::ShowShortcutsInContextMenus: return cfg.shortcutsForContextMenus;
 	case QPlatformTheme::ShowIconsInMenus: return cfg.menusHaveIcons;
 	default: return this->QGenericUnixTheme::themeHint(hint);
