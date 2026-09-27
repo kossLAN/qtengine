@@ -111,6 +111,12 @@ in {
             default = true;
           };
 
+          fileDialogTheme = mkOption {
+            type = str;
+            default = "";
+            description = "Platform theme to delegate file dialogs to, e.g. \"xdgdesktopportal\" or \"kde\". Empty uses Qt's built-in dialog.";
+          };
+
           cursorFlashTime = mkOption {
             type = int;
             default = 1000;

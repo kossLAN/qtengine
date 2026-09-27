@@ -214,6 +214,7 @@ void ConfigManager::loadFromPath(const QString& path) {
 	this->iconTheme = getString(root, "theme.iconTheme", QString());
 	this->style = getString(root, "theme.style", QString());
 	this->quickStyle = getString(root, "theme.quickStyle", QString());
+	this->fileDialogTheme = getString(root, "misc.fileDialogTheme", QString());
 
 	this->fontFixed = getString(root, "theme.fontFixed.family", QString("monospace"));
 	this->fontFixedSize = getInt(root, "theme.fontFixed.size", 11);

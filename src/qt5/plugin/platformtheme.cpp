@@ -30,6 +30,7 @@
 #include <qcoreapplication.h>
 #include <qcoreevent.h>
 #include <qdir.h>
+#include <qfileinfo.h>
 #include <qfont.h>
 #include <qguiapplication.h>
 #include <qicon.h>
@@ -164,6 +165,54 @@ QIcon PlatformTheme::fileIcon(
 
 QIconEngine* PlatformTheme::createIconEngine(const QString& iconName) const {
 	return new KIconEngine(iconName, KIconLoader::global());
+}
+
+QPlatformTheme* PlatformTheme::fileDialogTheme() const {
+	if (this->mFileDialogThemeLoaded) return this->mFileDialogTheme.get();
+	this->mFileDialogThemeLoaded = true;
+
+	const QString name = configManager().fileDialogTheme;
+	if (name.isEmpty()) return nullptr;
+
+	if (name == QLatin1String("qtengine")) {
+		qCWarning(logPlatformTheme) << "misc.fileDialogTheme cannot be qtengine itself, ignoring";
+		return nullptr;
+	}
+
+	// The xdg-desktop-portal backends are Qt apps too. Routing their own file
+	// dialogs back through the portal would make them call into themselves.
+	const QString exe = QFileInfo(QCoreApplication::applicationFilePath()).fileName();
+	if (exe.startsWith(QLatin1String("xdg-desktop-portal"))) {
+		qCDebug(logPlatformTheme) << "Not delegating file dialogs inside" << exe;
+		return nullptr;
+	}
+
+	this->mFileDialogTheme.reset(QPlatformThemeFactory::create(name));
+	if (this->mFileDialogTheme) {
+		qCDebug(logPlatformTheme) << "Delegating file dialogs to platform theme" << name;
+	} else {
+		qCWarning(logPlatformTheme) << "Failed to load platform theme" << name
+		                            << "for file dialogs, using Qt's built-in dialog";
+	}
+
+	return this->mFileDialogTheme.get();
+}
+
+bool PlatformTheme::usePlatformNativeDialog(QPlatformTheme::DialogType type) const {
+	if (type == QPlatformTheme::FileDialog) {
+		if (auto* theme = this->fileDialogTheme()) return theme->usePlatformNativeDialog(type);
+	}
+
+	return this->QGenericUnixTheme::usePlatformNativeDialog(type);
+}
+
+QPlatformDialogHelper* PlatformTheme::createPlatformDialogHelper(QPlatformTheme::DialogType type
+) const {
+	if (type == QPlatformTheme::FileDialog) {
+		if (auto* theme = this->fileDialogTheme()) return theme->createPlatformDialogHelper(type);
+	}
+
+	return this->QGenericUnixTheme::createPlatformDialogHelper(type);
 }
 
 void PlatformTheme::applySettings() {

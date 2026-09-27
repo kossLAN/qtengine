@@ -7,6 +7,7 @@
 #else
 #include <private/qgenericunixthemes_p.h>
 #endif
+#include <memory>
 #include <optional>
 
 #include <qfileinfo.h>
@@ -37,6 +38,9 @@ public:
 
 	[[nodiscard]] QIconEngine* createIconEngine(const QString& iconName) const override;
 
+	[[nodiscard]] bool usePlatformNativeDialog(DialogType type) const override;
+	[[nodiscard]] QPlatformDialogHelper* createPlatformDialogHelper(DialogType type) const override;
+
 protected:
 	bool eventFilter(QObject* obj, QEvent* e) override;
 
@@ -46,10 +50,15 @@ private slots:
 
 private:
 	static QStringList iconPaths();
+	[[nodiscard]] QPlatformTheme* fileDialogTheme() const;
 	QString mStyleName;
 	QString mIconThemeName;
 	QFont mFixedFont;
 	QFont mFont;
 	std::optional<QPalette> mPalette;
 	bool mUpdate = false;
+
+	// Theme that file dialogs are delegated to, loaded lazily on first use.
+	mutable std::unique_ptr<QPlatformTheme> mFileDialogTheme;
+	mutable bool mFileDialogThemeLoaded = false;
 };

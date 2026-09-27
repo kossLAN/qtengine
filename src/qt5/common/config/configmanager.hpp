@@ -23,6 +23,10 @@ public:
 	QString style;
 	QString quickStyle;
 
+	// Platform theme to borrow native file dialogs from (e.g. "xdgdesktopportal", "kde").
+	// Empty keeps Qt's built-in QFileDialog. Read once, on the first dialog request.
+	QString fileDialogTheme;
+
 	QString fontFixed;
 	int fontFixedSize = 11;
 	int fontFixedWeight = -1;
