@@ -159,13 +159,6 @@ qtengine doesn't draw file dialogs itself, so by default Qt apps use Qt's built-
   }
 }
 ```
-
-- `xdgdesktopportal`: the portal's FileChooser. Needs an `xdg-desktop-portal` backend that implements it (e.g. `-kde`, `-gtk`, `-gnome`, `-termfilechooser`); without one, Qt's built-in dialog is used.
-- `kde`: KDE's file dialog, drawn in-process with your qtengine style and colors. Needs `plasma-integration`.
-- `gtk3`: the GTK file chooser.
-
-The theme is loaded the first time an app opens a file dialog, and changing this option takes effect after restarting the app.
-
 ## Credits
 
 Thank you [hyprqt6engine](https://github.com/hyprwm/hyprqt6engine) & [qt6ct](https://www.opencode.net/trialuser/qt6ct) for being the foundation of this project. Also a thanks to [outfoxxed](https://github.com/outfoxxed) because I "borrowed" a lot of his C++ build tools that made working in C++ a lot less painful, especially on NixOS.
