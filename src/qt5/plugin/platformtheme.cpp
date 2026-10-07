@@ -91,6 +91,8 @@ PlatformTheme::PlatformTheme()
 #endif
 	}
 
+	this->loadDialogTheme();
+
 	QCoreApplication::instance()->installEventFilter(this);
 
 	QMetaObject::invokeMethod(
@@ -166,6 +168,41 @@ QIconEngine* PlatformTheme::createIconEngine(const QString& iconName) const {
 	return new KIconEngine(iconName, KIconLoader::global());
 }
 
+bool PlatformTheme::usePlatformNativeDialog(DialogType type) const {
+	if (this->mDialogTheme) return this->mDialogTheme->usePlatformNativeDialog(type);
+	return this->QGenericUnixTheme::usePlatformNativeDialog(type);
+}
+
+QPlatformDialogHelper* PlatformTheme::createPlatformDialogHelper(DialogType type) const {
+	if (this->mDialogTheme) return this->mDialogTheme->createPlatformDialogHelper(type);
+	return this->QGenericUnixTheme::createPlatformDialogHelper(type);
+}
+
+void PlatformTheme::loadDialogTheme() {
+	const QString name = configManager().dialogTheme;
+	if (name == this->mDialogThemeName) return;
+
+	this->mDialogThemeName = name;
+	this->mDialogTheme.reset();
+
+	if (name.isEmpty()) return;
+
+	const bool isQtEngine = name.compare(QLatin1String("qtengine"), Qt::CaseInsensitive) == 0;
+	const bool isPortalBackend =
+	    QCoreApplication::applicationName().startsWith(QLatin1String("xdg-desktop-portal"));
+
+	if (isQtEngine || isPortalBackend) return;
+
+	this->mDialogTheme.reset(QPlatformThemeFactory::create(name));
+
+	if (!this->mDialogTheme) {
+		qCWarning(logPlatformTheme) << "Failed to load dialog theme" << name;
+		return;
+	}
+
+	qCDebug(logPlatformTheme) << "Using dialogs from" << name;
+}
+
 void PlatformTheme::applySettings() {
 	if (!QGuiApplication::desktopSettingsAware()) {
 		this->mUpdate = true;
@@ -229,4 +266,5 @@ void PlatformTheme::onConfigChanged() {
 	configManager().reload();
 	ConfigWatcher::instance().setupFileWatching();
 	this->applySettings();
+	this->loadDialogTheme();
 }

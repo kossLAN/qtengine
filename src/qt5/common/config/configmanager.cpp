@@ -233,6 +233,7 @@ void ConfigManager::loadFromPath(const QString& path) {
 	this->keyboardScheme = getInt(root, "misc.keyboardScheme", 2);
 	this->uiEffects = getInt(root, "misc.uiEffects", 0);
 	this->wheelScrollLines = getInt(root, "misc.wheelScrollLines", 3);
+	this->dialogTheme = getString(root, "misc.dialogTheme", QString());
 }
 
 ConfigManager& configManager() {

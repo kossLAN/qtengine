@@ -22,6 +22,7 @@ public:
 	QString iconTheme;
 	QString style;
 	QString quickStyle;
+	QString dialogTheme;
 
 	QString fontFixed;
 	int fontFixedSize = 11;

@@ -145,6 +145,11 @@ in {
             type = int;
             default = 3;
           };
+
+          dialogTheme = mkOption {
+            type = str;
+            default = "";
+          };
         };
       };
     });

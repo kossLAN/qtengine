@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <optional>
 
 #include <private/qgenericunixthemes_p.h>
@@ -32,6 +33,9 @@ public:
 
 	[[nodiscard]] QIconEngine* createIconEngine(const QString& iconName) const override;
 
+	[[nodiscard]] bool usePlatformNativeDialog(DialogType type) const override;
+	[[nodiscard]] QPlatformDialogHelper* createPlatformDialogHelper(DialogType type) const override;
+
 protected:
 	bool eventFilter(QObject* obj, QEvent* e) override;
 
@@ -41,10 +45,13 @@ private slots:
 
 private:
 	static QStringList iconPaths();
+	void loadDialogTheme();
 	QString mStyleName;
 	QString mIconThemeName;
 	QFont mFixedFont;
 	QFont mFont;
 	std::optional<QPalette> mPalette;
 	bool mUpdate = false;
+	QString mDialogThemeName;
+	std::unique_ptr<QPlatformTheme> mDialogTheme;
 };
