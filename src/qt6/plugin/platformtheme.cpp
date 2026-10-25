@@ -26,6 +26,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <utility>
+
 #include <qapplication.h>
 #include <qcoreapplication.h>
 #include <qcoreevent.h>
