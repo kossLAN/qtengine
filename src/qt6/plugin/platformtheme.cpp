@@ -128,12 +128,12 @@ QStringList PlatformTheme::iconPaths() {
 	for (const QString& p: QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation)) {
 		paths << (p + QString::fromLatin1("/icons"));
 	}
-	paths.removeDuplicates();
 
 	// remove invalid
 	QStringList valid;
 	valid.reserve(paths.size());
 	for (const QString& p: std::as_const(paths)) {
+		if (valid.contains(p)) continue;
 		if (QDir(p).exists()) valid << p;
 	}
 
