@@ -26,6 +26,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <utility>
+
 #include <qapplication.h>
 #include <qcoreapplication.h>
 #include <qcoreevent.h>
@@ -126,16 +128,16 @@ QStringList PlatformTheme::iconPaths() {
 	for (const QString& p: QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation)) {
 		paths << (p + QString::fromLatin1("/icons"));
 	}
-	paths.removeDuplicates();
 
 	// remove invalid
-	QStringList::iterator it = paths.begin();
-	while (it != paths.end()) {
-		if (QDir(*it).exists()) ++it;
-		else it = paths.erase(it);
+	QStringList valid;
+	valid.reserve(paths.size());
+	for (const QString& p: std::as_const(paths)) {
+		if (valid.contains(p)) continue;
+		if (QDir(p).exists()) valid << p;
 	}
 
-	return paths;
+	return valid;
 }
 
 QVariant PlatformTheme::themeHint(QPlatformTheme::ThemeHint hint) const {
