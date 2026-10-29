@@ -24,11 +24,11 @@ public:
 	QString quickStyle;
 	QString dialogTheme;
 
-	QString fontFixed;
+	QString fontFixed = QStringLiteral("monospace");
 	int fontFixedSize = 11;
 	int fontFixedWeight = -1;
 
-	QString font;
+	QString font = QStringLiteral("Sans Serif");
 	int fontSize = 11;
 	int fontWeight = -1;
 
